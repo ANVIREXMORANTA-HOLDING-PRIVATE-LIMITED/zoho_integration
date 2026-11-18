@@ -35,16 +35,17 @@ def oauth_callback(code=None, state=None, **kwargs):
     s = frappe.get_single("Zoho Books Settings")
     from zoho_integration.zoho_client import ZohoBooksClient
 
-    # Do not leave a stale Connected flag when a new authorization does not
-    # produce both required credentials.
+    # Clear stale status first. On success, set connected before set_tokens()
+    # performs the one final document save. Avoid a second save after writing
+    # encrypted credentials to __Auth.
     s.connected = 0
     s.save(ignore_permissions=True)
     frappe.db.commit()
 
     token_data = ZohoBooksClient(s).exchange_code(code)
-    s.set_tokens(token_data, require_refresh_token=True)
     s.connected = 1
-    s.save(ignore_permissions=True)
+    s.set_tokens(token_data, require_refresh_token=True)
     frappe.db.commit()
+
     frappe.local.response["type"] = "redirect"
     frappe.local.response["location"] = "/app/zoho-books-settings/Zoho%20Books%20Settings"
