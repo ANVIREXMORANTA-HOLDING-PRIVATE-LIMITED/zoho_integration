@@ -40,7 +40,6 @@ def _zoho_to_item(row,dry_run):
     doc.item_code=sku or doc.get("item_code") or "ZB-"+zid
     doc.item_name=row.get("name") or row.get("item_name") or doc.item_code
     doc.description=row.get("description") or doc.get("description")
-    doc.is_stock_item=0
     # Preserve an existing ERPNext stock/non-stock classification. New imports
     # remain non-stock until the administrator configures inventory mapping.
     doc.save(ignore_permissions=True)
