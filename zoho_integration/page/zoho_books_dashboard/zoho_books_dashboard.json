@@ -1,0 +1,12 @@
+{
+  "doctype": "Page",
+  "name": "zoho-books-dashboard",
+  "title": "Zoho Books Dashboard",
+  "module": "Zoho Integration",
+  "standard": "Yes",
+  "roles": [
+    {
+      "role": "System Manager"
+    }
+  ]
+}
