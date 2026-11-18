@@ -20,6 +20,20 @@ def get_authorization_url():
     return get_authorization_url()
 
 @frappe.whitelist()
+def token_storage_status():
+    """Return credential-presence diagnostics only; never return token values."""
+    settings = frappe.get_single("Zoho Books Settings")
+    settings.check_permission("read")
+    return {
+        "connected_flag": bool(settings.connected),
+        "access_token_stored": bool(settings.get_password("access_token", raise_exception=False)),
+        "refresh_token_stored": bool(settings.get_password("refresh_token", raise_exception=False)),
+        "token_expiry": str(settings.token_expiry or ""),
+        "accounts_domain": settings.accounts_domain,
+        "api_domain": settings.api_domain,
+    }
+
+@frappe.whitelist()
 def test_connection():
     settings=frappe.get_single("Zoho Books Settings")
     settings.check_permission("read")
