@@ -27,14 +27,11 @@ class ZohoBooksClient:
         self._store_tokens(self._json(r), preserve_refresh=True)
 
     def _store_tokens(self, data, preserve_refresh=False):
-        if data.get("access_token"):
-            self.s.set_password("access_token", data["access_token"])
-        if data.get("refresh_token") and not preserve_refresh:
-            self.s.set_password("refresh_token", data["refresh_token"])
-        if data.get("api_domain"):
-            self.s.api_domain = data["api_domain"].rstrip("/")
-        self.s.token_expiry = add_to_date(now_datetime(), seconds=max(int(data.get("expires_in",3600))-120,60))
-        self.s.save(ignore_permissions=True)
+        # Use the single settings-level encrypted token writer for both
+        # authorization-code exchange and refresh-token rotation.
+        if preserve_refresh and not data.get("refresh_token"):
+            data = dict(data)
+        self.s.set_tokens(data)
 
     def token(self):
         if not self.s.get_password("access_token") or not self.s.token_expiry or self.s.token_expiry <= now_datetime():
