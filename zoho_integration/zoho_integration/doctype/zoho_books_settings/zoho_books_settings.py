@@ -51,4 +51,10 @@ class ZohoBooksSettings(Document):
             frappe.utils.now_datetime(),
             seconds=max(int(data.get("expires_in", 3600)) - 120, 60),
         )
+
+        # We wrote Password fields directly with set_encrypted_password above.
+        # Frappe's normal Document.save() calls _save_passwords(), which treats
+        # blank Password fields on this loaded document as deletions from __Auth.
+        # Skip that second password pass so it cannot erase the tokens we just stored.
+        self.flags.ignore_save_passwords = True
         self.save(ignore_permissions=True)
