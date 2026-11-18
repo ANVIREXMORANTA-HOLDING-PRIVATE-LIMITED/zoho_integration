@@ -95,4 +95,16 @@ frappe.pages["zoho-books-dashboard"].on_page_load = function (wrapper) {
       $main.find("[data-expiry]").text(d.token_expiry ? frappe.datetime.str_to_user(d.token_expiry) : "—");
     }
   });
+  frappe.call({
+    method:"zoho_integration.api.token_storage_status",
+    callback(r) {
+      const d=r.message || {};
+      const state = d.access_token_stored && d.refresh_token_stored ? "Tokens stored" :
+        d.access_token_stored ? "Access token only" : "No access token stored";
+      $main.find("[data-status]").text(state);
+      if (!d.access_token_stored) {
+        message(__("No encrypted access token is readable for this settings record. Reconnect and inspect the OAuth callback result."), "red");
+      }
+    }
+  });
 };
