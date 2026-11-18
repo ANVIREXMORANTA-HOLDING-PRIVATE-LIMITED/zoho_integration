@@ -4,7 +4,7 @@ app_publisher = "ANVIREXMORANTA HOLDING PRIVATE LIMITED"
 app_description = "Two-way Zoho Books integration for ERPNext"
 app_email = "support@example.com"
 app_license = "MIT"
-app_version = "0.2.0"
+app_version = "0.3.0"
 required_apps = ["erpnext"]
 
 scheduler_events = {
