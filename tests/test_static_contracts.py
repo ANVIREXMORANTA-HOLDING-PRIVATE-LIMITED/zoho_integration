@@ -7,6 +7,11 @@ ROOT = Path(__file__).resolve().parents[1]
 APP = ROOT / "zoho_integration"
 
 class AppContractTests(unittest.TestCase):
+    def test_frappe_package_metadata_exists(self):
+        self.assertTrue((APP / "hooks.py").is_file())
+        self.assertTrue((APP / "patches.txt").is_file())
+        self.assertTrue((APP / "__init__.py").is_file())
+
     def test_python_sources_parse(self):
         for path in APP.rglob("*.py"):
             with self.subTest(path=str(path.relative_to(ROOT))):
