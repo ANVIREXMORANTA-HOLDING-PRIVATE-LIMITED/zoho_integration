@@ -34,6 +34,13 @@ class AppContractTests(unittest.TestCase):
         for endpoint in ("sync_customers", "sync_suppliers", "sync_items", "sync_invoices"):
             self.assertIn("def " + endpoint, source)
 
+    def test_oauth_tokens_use_encrypted_password_storage(self):
+        settings = (APP / "zoho_integration" / "doctype" / "zoho_books_settings" / "zoho_books_settings.py").read_text(encoding="utf-8")
+        client = (APP / "zoho_client.py").read_text(encoding="utf-8")
+        self.assertIn("set_encrypted_password", settings)
+        self.assertIn("self.s.set_tokens(data)", client)
+        self.assertNotIn(".set_password(", settings + client)
+
     def test_invoice_guardrails_are_present(self):
         source = (APP / "invoices.py").read_text(encoding="utf-8")
         self.assertIn("_reject_if_taxed_or_discounted", source)
