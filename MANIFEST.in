@@ -1,3 +1,4 @@
 include README.md
 include license.txt
+include zoho_integration/patches.txt
 recursive-include zoho_integration *.json *.js *.css
