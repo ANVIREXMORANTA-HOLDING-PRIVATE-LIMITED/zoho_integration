@@ -1,12 +1,16 @@
-name: Python checks
+name: App validation
 on: [push, pull_request]
 jobs:
-  compile:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: python -m compileall -q zoho_integration
-      - run: python -c "import json,pathlib; [json.loads(p.read_text()) for p in pathlib.Path('zoho_integration').rglob('*.json')]; print('JSON files valid')"
+      - name: Compile Python sources
+        run: python -m compileall -q zoho_integration
+      - name: Run static contract tests
+        run: python -m unittest discover -s tests -v
+      - name: Validate DocType JSON
+        run: python -c "import json,pathlib; [json.loads(p.read_text()) for p in pathlib.Path('zoho_integration').rglob('*.json')]; print('DocType JSON valid')"
