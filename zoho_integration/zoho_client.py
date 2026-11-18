@@ -9,7 +9,7 @@ class ZohoBooksClient:
         self.timeout = 30
 
     def exchange_code(self, code):
-        callback = get_url("/api/method/zoho_integration.oauth_callback")
+        callback = get_url("/api/method/zoho_integration.oauth.oauth_callback")
         r = requests.post(self.s.accounts_domain.rstrip("/") + "/oauth/v2/token",
             data={"grant_type":"authorization_code","client_id":self.s.client_id,
                   "client_secret":self.s.get_password("client_secret"),"redirect_uri":callback,"code":code},
