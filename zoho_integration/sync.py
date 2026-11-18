@@ -10,7 +10,7 @@ def _hash(data):
 
 def _find_link(zoho_id):
     return frappe.db.get_value("Zoho Books Document Link",
-        {"zoho_id": str(zoho_id), "zoho_module": "contacts"}, "name")
+        {"zoho_id": str(zoho_id), "zoho_module": "contacts", "erpnext_doctype": "Customer"}, "name")
 
 def _save_link(doctype, docname, zoho_id, payload_hash):
     link_name = _find_link(zoho_id)
