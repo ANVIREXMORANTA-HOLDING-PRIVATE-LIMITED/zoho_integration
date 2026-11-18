@@ -1,10 +1,10 @@
 app_name = "zoho_integration"
 app_title = "Zoho Books Integration"
 app_publisher = "ANVIREXMORANTA HOLDING PRIVATE LIMITED"
-app_description = "Two-way Zoho Books integration for ERPNext"
+app_description = "Zoho Books integration for ERPNext"
 app_email = "support@example.com"
 app_license = "MIT"
-app_version = "0.3.0"
+app_version = "0.4.0"
 required_apps = ["erpnext"]
 
 scheduler_events = {
