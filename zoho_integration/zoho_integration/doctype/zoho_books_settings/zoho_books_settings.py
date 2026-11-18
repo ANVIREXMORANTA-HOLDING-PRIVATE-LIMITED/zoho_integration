@@ -12,8 +12,11 @@ class ZohoBooksSettings(Document):
                 frappe.throw(_("{0} must use HTTPS.").format(field))
 
     def set_tokens(self, data):
-        # Password fields are stored encrypted in Frappe's __Auth table.
-        # update_password() is for user password hashes, not Password fields.
+        access_token = data.get("access_token")
+        if not access_token:
+            frappe.throw(_("Zoho did not return an access token. Check the OAuth response and try connecting again."))
+
+        # Password fields are encrypted in Frappe's __Auth table.
         for field in ("access_token", "refresh_token"):
             token = data.get(field)
             if token:
@@ -23,6 +26,13 @@ class ZohoBooksSettings(Document):
                     token,
                     fieldname=field,
                 )
+
+        # Read back only to verify storage; never log or display token values.
+        if not self.get_password("access_token", raise_exception=False):
+            frappe.throw(_("Zoho returned an access token, but Frappe could not read it back from encrypted password storage. Check the site's encryption key and __Auth table."))
+
+        if data.get("refresh_token") and not self.get_password("refresh_token", raise_exception=False):
+            frappe.throw(_("Zoho refresh token was returned but could not be read back from encrypted password storage."))
 
         if data.get("api_domain"):
             self.api_domain = data["api_domain"].rstrip("/")
