@@ -25,6 +25,12 @@ class AppContractTests(unittest.TestCase):
                 data = json.loads(path.read_text(encoding="utf-8"))
                 self.assertEqual(data.get("doctype"), "DocType")
 
+    def test_desk_dashboard_assets_exist(self):
+        page = APP / "page" / "zoho_books_dashboard"
+        self.assertTrue((page / "zoho_books_dashboard.json").is_file())
+        self.assertTrue((page / "zoho_books_dashboard.js").is_file())
+        self.assertTrue((APP / "page" / "__init__.py").is_file())
+
     def test_sync_modules_exist(self):
         for module in ("sync.py", "suppliers.py", "items.py", "invoices.py", "zoho_client.py"):
             self.assertTrue((APP / module).is_file(), module)
