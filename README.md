@@ -1,5 +1,7 @@
 # Zoho Books Integration for ERPNext
 
+**Current development version: 0.4.0**
+
 A Frappe app for controlled, two-way synchronization between Zoho Books (India data center) and ERPNext v16.
 
 ## Implemented modules (development release 0.3.0)
@@ -39,6 +41,9 @@ Frappe Cloud custom-app guide: https://docs.frappe.io/cloud/benches/custom-app
 6. Enable synchronization only after verifying company, customer group, supplier group, item group, UOM, receivable and income account setup.
 
 The default OAuth scope list is expanded in this release. If the app was previously authorized, reconnect Zoho to grant the new scopes.
+
+## Desk workspace
+After deployment and migration, open the Desk route **`/app/zoho-books-dashboard`** or search for **Zoho Books Dashboard**. The dashboard provides connection status, organization and token-expiry indicators, a connection test, a link to settings, and inbound dry-run buttons for customers, vendors, items and sales invoices. System Manager access is required.
 
 ## Recommended validation sequence
 1. Test on a staging site and a Zoho Books test organization.
