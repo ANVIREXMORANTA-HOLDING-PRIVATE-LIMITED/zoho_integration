@@ -41,6 +41,8 @@ def _zoho_to_item(row,dry_run):
     doc.item_name=row.get("name") or row.get("item_name") or doc.item_code
     doc.description=row.get("description") or doc.get("description")
     doc.is_stock_item=0
+    # Preserve an existing ERPNext stock/non-stock classification. New imports
+    # remain non-stock until the administrator configures inventory mapping.
     doc.save(ignore_permissions=True)
     _save_link(doc.name,zid)
     return "updated" if existing else "created"
@@ -50,7 +52,8 @@ def _erp_to_zoho(doc,client,dry_run,index):
     link=frappe.get_doc("Zoho Books Document Link",link_name) if link_name else None
     zid=link.zoho_id if link else index.get((doc.item_code or "").casefold())
     payload={"name":doc.item_name or doc.item_code,"sku":doc.item_code,"description":doc.description or "",
-             "rate":float(doc.get("standard_rate") or 0),"product_type":"service"}
+             "rate":float(doc.get("standard_rate") or 0),
+             "product_type":"goods" if doc.is_stock_item else "service"}
     if dry_run: return "would_update" if zid else "would_create"
     if zid:
         client.request("PUT","items/"+str(zid),payload=payload)
