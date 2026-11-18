@@ -9,7 +9,7 @@ def get_authorization_url():
     s.check_permission("write")
     state = secrets.token_urlsafe(32)
     frappe.cache().set_value("zoho_oauth_state:" + frappe.session.user, state, expires_in_sec=600)
-    callback = get_url("/api/method/zoho_integration.oauth_callback")
+    callback = get_url("/api/method/zoho_integration.oauth.oauth_callback")
     params = {"scope": s.scopes, "client_id": s.client_id, "state": state,
               "response_type": "code", "redirect_uri": callback,
               "access_type": "offline", "prompt": "consent"}
@@ -25,8 +25,7 @@ def oauth_callback(code=None, state=None, **kwargs):
         frappe.throw(_("Zoho authorization code missing."))
     s = frappe.get_single("Zoho Books Settings")
     from zoho_integration.zoho_client import ZohoBooksClient
-    data = ZohoBooksClient(s).exchange_code(code)
-    s.set_tokens(data)
+    s.set_tokens(ZohoBooksClient(s).exchange_code(code))
     s.connected = 1
     s.save(ignore_permissions=True)
     frappe.db.commit()
