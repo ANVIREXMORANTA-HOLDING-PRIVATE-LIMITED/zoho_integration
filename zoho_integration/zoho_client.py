@@ -1,7 +1,7 @@
 import requests
 import frappe
 from frappe import _
-from frappe.utils import add_to_date, now_datetime, get_url
+from frappe.utils import add_to_date, now_datetime, get_datetime, get_url
 
 
 class ZohoBooksClient:
@@ -52,9 +52,15 @@ class ZohoBooksClient:
 
     def token(self):
         access = self.s.get_password("access_token", raise_exception=False)
-        if not access or not self.s.token_expiry or self.s.token_expiry <= now_datetime():
+        expiry_value = self.s.token_expiry
+        # Frappe may return a Datetime field as a string depending on how the
+        # document was loaded. Normalize it before comparing with now_datetime().
+        expiry = get_datetime(expiry_value) if expiry_value else None
+
+        if not access or not expiry or expiry <= now_datetime():
             self._refresh()
             access = self.s.get_password("access_token", raise_exception=False)
+
         if not access:
             frappe.throw(_(
                 "Zoho access token is not stored after refresh. "

@@ -64,6 +64,12 @@ class AppContractTests(unittest.TestCase):
             settings.index("self.save(ignore_permissions=True)"),
         )
 
+    def test_token_expiry_is_normalized_before_datetime_comparison(self):
+        source = (APP / "zoho_client.py").read_text(encoding="utf-8")
+        self.assertIn("get_datetime(expiry_value)", source)
+        self.assertIn("expiry <= now_datetime()", source)
+        self.assertNotIn("self.s.token_expiry <= now_datetime()", source)
+
     def test_invoice_guardrails_are_present(self):
         source = (APP / "invoices.py").read_text(encoding="utf-8")
         self.assertIn("_reject_if_taxed_or_discounted", source)
