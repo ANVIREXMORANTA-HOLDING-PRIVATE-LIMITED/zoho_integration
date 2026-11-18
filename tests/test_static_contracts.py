@@ -56,6 +56,14 @@ class AppContractTests(unittest.TestCase):
         self.assertIn("self.s.set_tokens(data)", client)
         self.assertNotIn(".set_password(", settings + client)
 
+    def test_oauth_token_save_skips_frappe_password_cleanup(self):
+        settings = (APP / "zoho_integration" / "doctype" / "zoho_books_settings" / "zoho_books_settings.py").read_text(encoding="utf-8")
+        self.assertIn("self.flags.ignore_save_passwords = True", settings)
+        self.assertLess(
+            settings.index("self.flags.ignore_save_passwords = True"),
+            settings.index("self.save(ignore_permissions=True)"),
+        )
+
     def test_invoice_guardrails_are_present(self):
         source = (APP / "invoices.py").read_text(encoding="utf-8")
         self.assertIn("_reject_if_taxed_or_discounted", source)
