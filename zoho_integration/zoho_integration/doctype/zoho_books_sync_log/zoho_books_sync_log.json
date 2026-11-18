@@ -28,14 +28,14 @@
       "fieldname": "direction",
       "label": "Direction",
       "fieldtype": "Select",
-      "options": "pull\\npush\\nboth",
+      "options": "pull\npush\nboth",
       "reqd": 1
     },
     {
       "fieldname": "status",
       "label": "Status",
       "fieldtype": "Select",
-      "options": "Queued\\nRunning\\nSuccess\\nFailed",
+      "options": "Queued\nRunning\nSuccess\nFailed",
       "default": "Queued",
       "in_list_view": 1
     },
