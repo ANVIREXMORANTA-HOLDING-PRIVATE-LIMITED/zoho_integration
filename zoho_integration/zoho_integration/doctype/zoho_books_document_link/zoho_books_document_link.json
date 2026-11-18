@@ -1,0 +1,71 @@
+{
+  "doctype": "DocType",
+  "name": "Zoho Books Document Link",
+  "module": "Zoho Integration",
+  "engine": "InnoDB",
+  "field_order": [
+    "erpnext_doctype",
+    "erpnext_name",
+    "zoho_module",
+    "zoho_id",
+    "last_synced_at",
+    "last_synced_hash",
+    "sync_status"
+  ],
+  "fields": [
+    {
+      "fieldname": "erpnext_doctype",
+      "label": "ERPNext DocType",
+      "fieldtype": "Link",
+      "options": "DocType",
+      "reqd": 1
+    },
+    {
+      "fieldname": "erpnext_name",
+      "label": "ERPNext Document",
+      "fieldtype": "Dynamic Link",
+      "options": "erpnext_doctype",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "zoho_module",
+      "label": "Zoho Module",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "zoho_id",
+      "label": "Zoho Record ID",
+      "fieldtype": "Data",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "last_synced_at",
+      "label": "Last Synced At",
+      "fieldtype": "Datetime"
+    },
+    {
+      "fieldname": "last_synced_hash",
+      "label": "Last Synced Hash",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "sync_status",
+      "label": "Sync Status",
+      "fieldtype": "Select",
+      "options": "Synced\\nConflict\\nError",
+      "default": "Synced"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 0
+    }
+  ]
+}
