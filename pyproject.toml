@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "zoho_integration"
-version = "0.3.0"
-description = "Two-way Zoho Books integration for ERPNext"
+version = "0.4.0"
+description = "Zoho Books integration for ERPNext"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "license.txt" }
