@@ -1,0 +1,97 @@
+{
+  "doctype": "DocType",
+  "name": "Zoho Books Sync Log",
+  "module": "Zoho Integration",
+  "engine": "InnoDB",
+  "field_order": [
+    "entity",
+    "direction",
+    "status",
+    "dry_run",
+    "started_by",
+    "started_on",
+    "completed_on",
+    "records_read",
+    "records_created",
+    "records_updated",
+    "message"
+  ],
+  "fields": [
+    {
+      "fieldname": "entity",
+      "label": "Entity",
+      "fieldtype": "Data",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "direction",
+      "label": "Direction",
+      "fieldtype": "Select",
+      "options": "pull\\npush\\nboth",
+      "reqd": 1
+    },
+    {
+      "fieldname": "status",
+      "label": "Status",
+      "fieldtype": "Select",
+      "options": "Queued\\nRunning\\nSuccess\\nFailed",
+      "default": "Queued",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "dry_run",
+      "label": "Dry Run",
+      "fieldtype": "Check",
+      "default": "1"
+    },
+    {
+      "fieldname": "started_by",
+      "label": "Started By",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "started_on",
+      "label": "Started On",
+      "fieldtype": "Datetime",
+      "default": "Now"
+    },
+    {
+      "fieldname": "completed_on",
+      "label": "Completed On",
+      "fieldtype": "Datetime"
+    },
+    {
+      "fieldname": "records_read",
+      "label": "Records Read",
+      "fieldtype": "Int",
+      "default": "0"
+    },
+    {
+      "fieldname": "records_created",
+      "label": "Records Created",
+      "fieldtype": "Int",
+      "default": "0"
+    },
+    {
+      "fieldname": "records_updated",
+      "label": "Records Updated",
+      "fieldtype": "Int",
+      "default": "0"
+    },
+    {
+      "fieldname": "message",
+      "label": "Message",
+      "fieldtype": "Long Text"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 0
+    }
+  ]
+}
