@@ -9,10 +9,4 @@ jobs:
         with:
           python-version: "3.11"
       - run: python -m compileall -q zoho_integration
-      - run: python - <<'PY'
-import json
-from pathlib import Path
-for p in Path("zoho_integration").rglob("*.json"):
-    json.loads(p.read_text())
-print("JSON files valid")
-PY
+      - run: python -c "import json,pathlib; [json.loads(p.read_text()) for p in pathlib.Path('zoho_integration').rglob('*.json')]; print('JSON files valid')"
