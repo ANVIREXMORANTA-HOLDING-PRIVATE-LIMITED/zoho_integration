@@ -18,12 +18,15 @@ class AppContractTests(unittest.TestCase):
                 ast.parse(path.read_text(encoding="utf-8"))
 
     def test_doctype_json_is_valid(self):
-        files = list(APP.rglob("*.json"))
-        self.assertGreaterEqual(len(files), 3)
+        files = list((APP / "zoho_integration" / "doctype").rglob("*.json"))
+        self.assertGreaterEqual(len(files), 2)
         for path in files:
             with self.subTest(path=str(path.relative_to(ROOT))):
                 data = json.loads(path.read_text(encoding="utf-8"))
                 self.assertEqual(data.get("doctype"), "DocType")
+        page_json = APP / "page" / "zoho_books_dashboard" / "zoho_books_dashboard.json"
+        page = json.loads(page_json.read_text(encoding="utf-8"))
+        self.assertEqual(page.get("doctype"), "Page")
 
     def test_desk_dashboard_assets_exist(self):
         page = APP / "page" / "zoho_books_dashboard"
