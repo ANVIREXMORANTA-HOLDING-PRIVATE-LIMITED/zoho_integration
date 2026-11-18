@@ -1,7 +1,7 @@
 import frappe
 from frappe.model.document import Document
 from frappe import _
-from frappe.utils.password import update_password
+from frappe.utils.password import set_encrypted_password
 
 
 class ZohoBooksSettings(Document):
@@ -12,15 +12,15 @@ class ZohoBooksSettings(Document):
                 frappe.throw(_("{0} must use HTTPS.").format(field))
 
     def set_tokens(self, data):
-        # Frappe Documents expose get_password(), but do not implement
-        # set_password(). Store Password fields through Frappe's password API.
+        # Password fields are stored encrypted in Frappe's __Auth table.
+        # update_password() is for user password hashes, not Password fields.
         for field in ("access_token", "refresh_token"):
             token = data.get(field)
             if token:
-                update_password(
+                set_encrypted_password(
+                    self.doctype,
                     self.name,
                     token,
-                    doctype=self.doctype,
                     fieldname=field,
                 )
 
