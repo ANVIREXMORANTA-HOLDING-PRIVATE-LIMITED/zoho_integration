@@ -17,9 +17,11 @@ class ZohoBooksClient:
         return self._json(r)
 
     def _refresh(self):
-        refresh = self.s.get_password("refresh_token")
+        # Missing encrypted credentials must not raise before we can provide
+        # a useful reconnect instruction.
+        refresh = self.s.get_password("refresh_token", raise_exception=False)
         if not refresh:
-            frappe.throw(_("Zoho refresh token missing. Reconnect the account."))
+            frappe.throw(_("Zoho refresh token is not stored for this settings record. Open Zoho Books Settings and reconnect to Zoho."))
         r = requests.post(self.s.accounts_domain.rstrip("/") + "/oauth/v2/token",
             data={"grant_type":"refresh_token","client_id":self.s.client_id,
                   "client_secret":self.s.get_password("client_secret"),"refresh_token":refresh},
@@ -34,9 +36,13 @@ class ZohoBooksClient:
         self.s.set_tokens(data)
 
     def token(self):
-        if not self.s.get_password("access_token") or not self.s.token_expiry or self.s.token_expiry <= now_datetime():
+        access = self.s.get_password("access_token", raise_exception=False)
+        if not access or not self.s.token_expiry or self.s.token_expiry <= now_datetime():
             self._refresh()
-        return self.s.get_password("access_token")
+            access = self.s.get_password("access_token", raise_exception=False)
+        if not access:
+            frappe.throw(_("Zoho access token is not stored after refresh. Reconnect to Zoho and check the OAuth callback."))
+        return access
 
     def request(self, method, path, params=None, payload=None, retry=True):
         params = dict(params or {})
