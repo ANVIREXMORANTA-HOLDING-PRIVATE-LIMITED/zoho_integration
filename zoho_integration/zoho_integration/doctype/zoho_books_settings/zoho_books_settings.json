@@ -1,0 +1,134 @@
+{
+  "doctype": "DocType",
+  "name": "Zoho Books Settings",
+  "module": "Zoho Integration",
+  "issingle": 1,
+  "engine": "InnoDB",
+  "field_order": [
+    "enabled",
+    "connected",
+    "company",
+    "oauth_section",
+    "client_id",
+    "client_secret",
+    "accounts_domain",
+    "api_domain",
+    "scopes",
+    "organization_id",
+    "access_token",
+    "refresh_token",
+    "token_expiry",
+    "sync_section",
+    "scheduled_sync",
+    "allow_outbound_writes"
+  ],
+  "fields": [
+    {
+      "fieldname": "enabled",
+      "label": "Enable Synchronization",
+      "fieldtype": "Check",
+      "default": "0"
+    },
+    {
+      "fieldname": "connected",
+      "label": "Connected",
+      "fieldtype": "Check",
+      "read_only": 1
+    },
+    {
+      "fieldname": "company",
+      "label": "ERPNext Company",
+      "fieldtype": "Link",
+      "options": "Company",
+      "reqd": 1
+    },
+    {
+      "fieldname": "oauth_section",
+      "label": "Zoho OAuth",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "client_id",
+      "label": "Client ID",
+      "fieldtype": "Data",
+      "reqd": 1
+    },
+    {
+      "fieldname": "client_secret",
+      "label": "Client Secret",
+      "fieldtype": "Password",
+      "reqd": 1
+    },
+    {
+      "fieldname": "accounts_domain",
+      "label": "Accounts Domain",
+      "fieldtype": "Data",
+      "default": "https://accounts.zoho.in",
+      "reqd": 1
+    },
+    {
+      "fieldname": "api_domain",
+      "label": "API Domain",
+      "fieldtype": "Data",
+      "default": "https://www.zohoapis.in",
+      "reqd": 1
+    },
+    {
+      "fieldname": "scopes",
+      "label": "OAuth Scopes",
+      "fieldtype": "Small Text",
+      "default": "ZohoBooks.contacts.READ,ZohoBooks.contacts.CREATE,ZohoBooks.contacts.UPDATE",
+      "reqd": 1
+    },
+    {
+      "fieldname": "organization_id",
+      "label": "Zoho Organization ID",
+      "fieldtype": "Data"
+    },
+    {
+      "fieldname": "access_token",
+      "label": "Access Token",
+      "fieldtype": "Password",
+      "hidden": 1
+    },
+    {
+      "fieldname": "refresh_token",
+      "label": "Refresh Token",
+      "fieldtype": "Password",
+      "hidden": 1
+    },
+    {
+      "fieldname": "token_expiry",
+      "label": "Token Expiry",
+      "fieldtype": "Datetime",
+      "read_only": 1
+    },
+    {
+      "fieldname": "sync_section",
+      "label": "Sync Options",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "scheduled_sync",
+      "label": "Scheduled Pull Sync",
+      "fieldtype": "Check",
+      "default": "0"
+    },
+    {
+      "fieldname": "allow_outbound_writes",
+      "label": "Allow ERPNext to Zoho Writes",
+      "fieldtype": "Check",
+      "default": "0",
+      "description": "Enable only after validating mappings and testing in a sandbox."
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 0
+    }
+  ]
+}
