@@ -1,2 +1,10 @@
 from setuptools import setup, find_packages
-setup(name="zoho_integration", version="0.3.0", description="Zoho Books integration for ERPNext", packages=find_packages(), include_package_data=True, zip_safe=False)
+
+setup(
+    name="zoho_integration",
+    version="0.4.0",
+    description="Zoho Books integration for ERPNext",
+    packages=find_packages(),
+    include_package_data=True,
+    zip_safe=False,
+)
